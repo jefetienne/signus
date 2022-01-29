@@ -490,15 +490,15 @@ void SetOptions() {
 #define mnQuit     5
 #define mnAbort    6
 
-int quit_mission(void) {
-	if (PromtBox(SigText[TXT_CONFIRM_QUIT], cmYes | cmNo) != cmYes)  {
+int quit_mission(bool skipPrompts = false) {
+	if (!skipPrompts && PromtBox(SigText[TXT_CONFIRM_QUIT], cmYes | cmNo) != cmYes)  {
 		return 0;
 	}
 
 	SignusTerminated = TRUE;
 	TerminationStatus = 666;
 
-	if (PromtBox(SigText[TXT_SAVEMISSION], cmYes | cmNo) == cmYes) {
+	if (!skipPrompts && PromtBox(SigText[TXT_SAVEMISSION], cmYes | cmNo) == cmYes) {
 		SaveGame();
 	}
 
@@ -922,9 +922,9 @@ void HandleEvent(TEvent *e)
                 }
         }       
     } else if (e->What == evQuit) {
-	if (quit_mission()) {
-		PutEvent(e);
-	}
+		if (quit_mission(true)) {
+			PutEvent(e);
+		}
     }
 
     UpdateScreen();
