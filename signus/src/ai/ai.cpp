@@ -1164,6 +1164,8 @@ double TArmy::AttackStatus (int attacker, int weapon, int defender
 
 double TArmy::ProbHit (int attackerID, int weapon, int defenderID)
 {
+    return 1.0;
+
     TUnit *attacker;
     TObject *defender;
 
